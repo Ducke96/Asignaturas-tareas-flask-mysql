@@ -1,2 +1,11 @@
-# Asignaturas-tareas-flask-mysql
-Proyecto de flask donde se trabaja crud en mysql y relacion simple entre materias y tareas
+# Screenshot
+![](docs/screenshot.png)
+
+# install dependencies
+- pip install flask
+- pip install flask-mysqldb
+- instalar gestor de base de datos MYSQL
+
+
+# issues
+- sudo apt-get install libmysqlclient-dev

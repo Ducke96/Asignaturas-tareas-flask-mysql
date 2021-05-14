@@ -1,0 +1,149 @@
+{% extends "layout.html" %}
+{% block body %}
+
+<h2 class="alert">Las fechas para notificaciones esta para 4 dias apartir de la fecha actual</h2>
+
+{% if pendientes %}
+{% for pendiente in pendientes %}
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+
+  tarea pendiente fecha cercana de entrega {{ pendiente.2 , pendiente.3}}
+
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{% endfor %}
+{% endif %}
+
+
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+  <h1>Asignaturas</h1>
+</div>
+  <div class="row">
+    <div class="col-md-5">
+      {% with messages = get_flashed_messages()  %}
+      {% if messages %}
+      {% for message in messages %}
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      {% endfor %}
+      {% endif %}
+      {% endwith %}
+      <div class="card card-body">
+        <form action="{{url_for('add_contact')}}" method="POST">
+          <div class="form-group">
+            <input type="text" class="form-control" name="fullname" placeholder="Nombre Asignatura">
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" name="Descripcion" placeholder="Descripcion">
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" name="horario" placeholder="Horario">
+          </div>
+          <button class="btn btn-primary btn-block">
+            Save 
+          </button>
+        </form>
+      </div>
+    </div>
+    <div class="col-md-7">
+      <table class="table table-striped table-hover table-bordered table-sm bg-white">
+        <thead>
+          <tr>
+            <td>ID</td>
+            <td>Nombre</td>
+            <td>Descripcion</td>
+            <td>Horario</td>
+            <td>Operations</td>
+          </tr>
+        </thead>
+        <tbody>
+          {% for contact in contacts %}
+          <tr>
+            <td>{{contact.0}}</td>
+            <td>{{contact.1}}</td>
+            <td>{{contact.2}}</td>
+            <td>{{contact.3}}</td>
+            <td>
+              <a href="/edit/{{contact.0}}" class="btn btn-secondary">edit</a>
+              <a href="/delete/{{contact.0}}" class="btn btn-danger btn-delete">delete</a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+<p></p>
+  
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+  <h1>Actividades</h1>
+</div>
+  <div class="row">
+    <div class="col-md-5">
+      <div class="card card-body">
+        <form action="{{url_for('add_tarea')}}" method="POST">
+          <div class="form-group">
+            <select name="id_asignatura" class="form-control">
+
+              {% for contact in contacts %}
+              
+              <option value="{{contact.0}}" selected>{{contact.1}}</option>
+
+              {% endfor %}
+            </select>
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" name="fullname" placeholder="Nombre">
+          </div>
+          <div class="form-group">
+            <input type="date" class="form-control" name="Fecha_limite" placeholder="Fecha_limite">
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" name="Descripcion" placeholder="Descripcion">
+          </div>
+          <button class="btn btn-primary btn-block">
+            Save 
+          </button>
+        </form>
+      </div>
+    </div>
+    <div class="col-md-7">
+      <table class="table table-striped table-hover table-bordered table-sm bg-white">
+        <thead>
+          <tr>
+            <td>ID</td>
+            <td>id_asignatura</td>
+            <td>Nombre</td>
+            <td>Fecha_limite</td>
+            <td>Descripcion</td>
+            <td>Operations</td>
+          </tr>
+        </thead>
+        <tbody>
+          {% for tarea1 in tarea %}
+          <tr>
+            <td>{{tarea1.0}}</td>
+            <td>{{tarea1.1}}</td>
+            <td>{{tarea1.2}}</td>
+            <td>{{tarea1.3}}</td>
+            <td>{{tarea1.4}}</td>
+            <td>
+              <a href="/editTarea/{{tarea1.0}}" class="btn btn-secondary">edit</a>
+              <a href="/deleteTarea/{{tarea1.0}}" class="btn btn-danger btn-delete">delete</a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+
+{% endblock %}
